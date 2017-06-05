@@ -7,7 +7,7 @@
         {
             "taskName": "build",
             "args": [
-                "${workspaceRoot}/src/DotNetOutdated/project.json"
+                "${workspaceRoot}/src/DotNetOutdated"
             ],
             "isBuildCommand": true,
             "problemMatcher": "$msCompile"

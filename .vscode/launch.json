@@ -6,11 +6,12 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceRoot}/src/DotNetOutdated/bin/Debug/netcoreapp1.0/dotnet-outdated.dll",
+            "program": "${workspaceRoot}/src/DotNetOutdated/bin/Debug/netcoreapp1.1/dotnet-outdated.dll",
             "args": [],
             "cwd": "${workspaceRoot}",
             "externalConsole": false,
-            "stopAtEntry": false
+            "stopAtEntry": false,
+            "requireExactSource": false
         },
         {
             "name": ".NET Core Attach",

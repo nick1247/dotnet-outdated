@@ -1,6 +1,8 @@
 using System.IO;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.Xml;
+using System;
 
 namespace DotNetOutdated
 {
@@ -9,63 +11,36 @@ namespace DotNetOutdated
         public static IEnumerable<Dependency> GetAllDependencies(string filePath)
         {
             HashSet<Dependency> all = new HashSet<Dependency>();
-            var project = File.ReadAllText(filePath);
-            JObject json = JObject.Parse(project);
+            var csproj = new XmlDocument();
+            csproj.LoadXml(File.ReadAllText(filePath));
 
-            var dependencies = json["dependencies"];
-            if (dependencies != null) 
+            var nodes = csproj.GetElementsByTagName("ItemGroup");
+            for (int i = 0; i < nodes.Count; i++)
             {
-                foreach(var prop in dependencies.Value<JObject>().Properties())
+                var node = nodes.Item(i);
+                if (node.HasChildNodes)
                 {
-                    var dependency = Extract(prop);
-                    if (dependency != null)
-                        all.Add(dependency);
-                } 
-            }
-
-            dependencies = json["tools"];
-            if (dependencies != null) 
-            {
-                foreach(var prop in dependencies.Value<JObject>().Properties())
-                {
-                    var dependency = Extract(prop);
-                    if (dependency != null)
-                        all.Add(dependency);
-                } 
-            }
-
-            var frameworks = json["frameworks"];
-            if (frameworks != null) 
-            {
-                foreach(var framework in frameworks.Value<JObject>().Properties())
-                {
-                    if (framework.Value["dependencies"] != null) 
+                    for (int j = 0; j < node.ChildNodes.Count; j++)
                     {
-                        foreach(var prop in framework.Value["dependencies"].Value<JObject>().Properties())
-                        {
-                            var dependency = Extract(prop);
-                            if (dependency != null)
-                                all.Add(dependency);
-                        } 
+                        var childNode = node.ChildNodes.Item(j);
+                        var dependency = _extract(childNode);
+
+                        if (dependency != null) all.Add(dependency);
                     }
-                } 
+                }
             }
 
             return all;
         }
 
-        private static Dependency Extract(JProperty prop)
+        private static Dependency _extract(XmlNode node)
         {
-            string version = null;
-            if (prop.Value.Type == JTokenType.String) 
-                version = prop.Value.ToString();
-            else if (prop.Value["version"] != null)
-                version = prop.Value["version"].ToString();
+            if (string.CompareOrdinal(node.Name, "PackageReference") != 0 && string.CompareOrdinal(node.Name, "DotNetCliToolReference") != 0) return null;
 
-            if (version != null)
-                return new Dependency(prop.Name, version);
+            var name = node.Attributes["Include"].Value;
+            var version = node.Attributes["Version"].Value;
 
-            return null;
+            return new Dependency(name, version);
         }
     }
 }
