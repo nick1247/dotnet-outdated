@@ -3,12 +3,12 @@
     "configurations": [
         {
             "name": ".NET Core Launch (console)",
-            "type": "coreclr",
+            "type": "clr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceRoot}/src/DotNetOutdated/bin/Debug/netcoreapp1.1/dotnet-outdated.dll",
+            "program": "${workspaceRoot}/src/DotNetOutdated/bin/Debug/net461/dotnet-outdated.exe",
             "args": [],
-            "cwd": "${workspaceRoot}",
+            "cwd": "${workspaceRoot}/src/DotNetOutdated",
             "externalConsole": false,
             "stopAtEntry": false,
             "requireExactSource": false

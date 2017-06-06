@@ -1,4 +1,4 @@
-using NuGet.Versioning;
+using NuGet;
 using System;
 
 namespace DotNetOutdated

@@ -5,7 +5,7 @@
     <AssemblyTitle>DotNet Outdated</AssemblyTitle>
     <VersionPrefix>2.0.0</VersionPrefix>
     <Authors>Guilherme Oenning</Authors>
-    <TargetFramework>netcoreapp1.0</TargetFramework>
+    <TargetFramework>net461</TargetFramework>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <AssemblyName>dotnet-outdated</AssemblyName>
     <OutputType>Exe</OutputType>
@@ -13,7 +13,6 @@
     <PackageTags>dotnet;nuget;dependencies;outdated</PackageTags>
     <PackageProjectUrl>https://github.com/goenning/dotnet-outdated</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/goenning/dotnet-outdated/master/LICENSE</PackageLicenseUrl>
-    <RuntimeFrameworkVersion>1.0.4</RuntimeFrameworkVersion>
     <PackageType>DotnetCliTool</PackageType>
   </PropertyGroup>
 

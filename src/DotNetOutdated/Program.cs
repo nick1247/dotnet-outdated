@@ -11,8 +11,7 @@ namespace DotNetOutdated
         {
             var dependencies = ProjectParser.GetAllDependencies(System.IO.Directory.GetFiles("./", "*.csproj")[0]);
             var client = new HttpNuGetClient();  
-            var requests = dependencies.Select(x => client.GetPackageInfo(x.Name));
-            var responses = Task.WhenAll(requests).Result;
+            var responses = dependencies.Select(x => client.GetPackageInfo(x.Name)).ToArray();
             var data = new List<DependencyStatus>();
 
             for (int i = 0; i < responses.Length; i++)

@@ -1,4 +1,4 @@
-using NuGet.Versioning;
+using NuGet;
 using System.Linq;
 
 namespace DotNetOutdated
@@ -25,20 +25,20 @@ namespace DotNetOutdated
             foreach(var version in package.Versions)
             {
                 if (status.LatestVersion == null)
-                    status.LatestVersion = version;
+                    status.LatestVersion = version.Version;
 
-                if (!version.IsPrerelease && status.StableVersion == null)
+                if (version.IsReleaseVersion() && status.StableVersion == null)
                 {
-                    status.WantedVersion = version;
-                    status.StableVersion = version;
+                    status.WantedVersion = version.Version;
+                    status.StableVersion = version.Version;
                 }
             }
 
             if (dependency.CurrentVersion > status.WantedVersion)
                 status.WantedVersion = dependency.CurrentVersion;
 
-            if (status.WantedVersion.Major > dependency.CurrentVersion.Major) 
-                status.WantedVersion = package.Versions.FirstOrDefault(x => !x.IsPrerelease && x.Major == dependency.CurrentVersion.Major);
+            if (status.WantedVersion.Version.Major > dependency.CurrentVersion.Version.Major) 
+                status.WantedVersion = package.Versions.FirstOrDefault(x => x.IsReleaseVersion() && x.Version.Version.Major == dependency.CurrentVersion.Version.Major)?.Version;
 
             return status;
         }
