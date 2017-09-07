@@ -13,7 +13,7 @@ namespace DotNetOutdated
 
         public PackageInfo GetPackageInfo(string packageName)
         {
-            var repo = PackageRepositoryFactory.Default.CreateRepository("https://packages.nuget.org/api/v2");
+            var repo = PackageRepositoryFactory.Default.CreateRepository("http://nuget.europlan.ru/nuget/default");
             var packages = repo.FindPackagesById(packageName).ToList();
 
             // var json = await this.GetResource($"{packageName.ToLower()}/index.json");
@@ -35,7 +35,7 @@ namespace DotNetOutdated
             //         versions.AddRange(this.ExtractVersions(page["items"]));
             // }
 
-            packages.Reverse();
+            packages = packages.OrderByDescending(p => p.Version).ToList();
             return new PackageInfo(packageName, packages);
         }
 

@@ -34,6 +34,8 @@ namespace DotNetOutdated
                 }
             }
 
+            if (status.WantedVersion == null) status.WantedVersion = status.LatestVersion;
+
             if (dependency.CurrentVersion > status.WantedVersion)
                 status.WantedVersion = dependency.CurrentVersion;
 
